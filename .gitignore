@@ -8,9 +8,6 @@
 # testing
 /coverage
 
-/src/pages/Blog
-/src/components/common
-
 # production
 /build
 
