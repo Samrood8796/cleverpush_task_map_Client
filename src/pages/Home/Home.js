@@ -1,40 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import EmptyList from '../../components/common/EmptyList/EmptyList';
 import BlogList from '../../components/Home/BlogList';
 import Header from '../../components/Home/Header/Header';
 import SearchBar from '../../components/Home/SearchBar/SearchBar';
-import { blogList } from '../../config/data';
+import { getBlogs } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { setBlogs } from '../../state/userReducer';
+import axios from '../../utils/axios';
 
 const Home = () => {
-  const [blogs, setBlogs] = useState(blogList);
+  const dispatch = useDispatch()
   const [searchKey, setSearchKey] = useState('');
 
+  const blogs = useSelector((state) => state.blogs)
+
+  const user = useSelector((state) => state.user)
+  const getAllBlogs = () => {
+    axios.get(`${getBlogs}/${user._id}`).then((response) => {
+      dispatch(setBlogs({data:response.data, searchKey:searchKey}))
+    })
+  }
   // Search submit
   const handleSearchBar = (e) => {
     e.preventDefault();
     handleSearchResults();
   };
-
   // Search for blog by category
   const handleSearchResults = () => {
-    const allBlogs = blogList;
-    const filteredBlogs = allBlogs.filter((blog) =>
-      blog.category.toLowerCase().includes(searchKey.toLowerCase().trim())
-    );
-    setBlogs(filteredBlogs);
+    axios.get(`${getBlogs}/${searchKey}`)
+    // setBlogs(filteredBlogs)
   };
 
   // Clear search and show all blogs
   const handleClearSearch = () => {
-    setBlogs(blogList);
+    // set(searchBlogs)
     setSearchKey('');
   };
-
+  useEffect(() => {
+    getAllBlogs()
+  }, [searchKey])
   return (
     <div>
       {/* Page Header */}
       <Header />
-
       {/* Search Bar */}
       <SearchBar
         value={searchKey}
@@ -43,7 +51,7 @@ const Home = () => {
         handleSearchKey={(e) => setSearchKey(e.target.value)}
       />
       {/* Blog List & Empty View */}
-      {!blogs.length ? <EmptyList /> : <BlogList blogs={blogs} />}
+      {!blogs?.length ? <EmptyList /> : <BlogList blogs={blogs} />}
     </div>
   );
 };

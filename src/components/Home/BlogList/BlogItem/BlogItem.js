@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Chip from '../../../common/Chip/Chip';
+import {BiSolidUserCircle} from 'react-icons/bi'
 import './styles.css';
 
 const BlogItem = ({
@@ -8,11 +9,10 @@ const BlogItem = ({
     description,
     title,
     createdAt,
-    authorName,
-    authorAvatar,
+    authorName, 
     cover,
     category,
-    id,
+    _id,
   },
 }) => {
   return (
@@ -23,13 +23,14 @@ const BlogItem = ({
       <p className='blogItem-desc'>{description}</p>
       <footer>
         <div className='blogItem-author'>
-          <img src={authorAvatar} alt='avatar' />
+          {/* <img src={authorAvatar} alt='avatar' /> */}
+          <BiSolidUserCircle className='text-4xl'></BiSolidUserCircle>
           <div>
             <h6>{authorName}</h6>
             <p>{createdAt}</p>
           </div>
         </div>
-        <Link className='blogItem-link' to={`/blog/${id}`}>
+        <Link className='blogItem-link' to={`/blog/${_id}`}>
           ➝
         </Link>
       </footer>

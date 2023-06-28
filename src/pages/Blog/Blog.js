@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { blogList } from '../../config/data';
 import Chip from '../../components/common/Chip/Chip';
 import './styles.css';
 import { Link } from 'react-router-dom';
 import EmptyList from '../../components/common/EmptyList/EmptyList';
+import { useSelector } from 'react-redux';
 
 const Blog = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
-
+  const blogList = useSelector((state)=>state.blogs)
+  console.log(blogList);
   useEffect(() => { 
-    let blog = blogList.find((blog) => blog.id === parseInt(id));
+    let blog = blogList.find((blog) => blog._id == id);
+    console.log(blog);
     if (blog) {
       setBlog(blog); 
     }
@@ -28,11 +30,6 @@ const Blog = () => {
             <p className='blog-date'>Published {blog.createdAt}</p>
             <h1>{blog.title}</h1>
             <div className='blog-subCategory'>     
-              {blog.subCategory.map((category, i) => (
-                <div key={i}>
-                  <Chip label={category} />
-                </div>
-              ))}
             </div>
           </header>
           <img src={blog.cover} alt='cover' />

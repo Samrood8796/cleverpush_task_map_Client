@@ -3,25 +3,27 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from '../../utils/axios'
 import toast, { Toaster } from 'react-hot-toast';
 import {loginPost } from '../../utils/constants'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../state/userReducer';
 const Login = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+    const dispatch = useDispatch()
     const handleLogin = (e) => {
         e.preventDefault()
         axios.post(loginPost, { email, password }, {
             headers: { "Content-Type": "application/json" },
-        }).then((userData) => {
-            console.log(userData?.data?.user);
-            localStorage.setItem("user",userData.data.user)
+        }).then((response) => {
+            console.log(response.data);
+            dispatch(setUser( response.data))
             navigate('/')
         }).catch((err) => {
             ((error) => {
-                toast.error(error.response.data.msg, {
+                toast.error(error?.response?.data?.msg, {
                     position: "top-center",
                 });
-            })(err);
+            })(err); 
         })
     }
 
