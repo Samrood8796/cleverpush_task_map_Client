@@ -34,7 +34,6 @@ const Register = () => {
     })
 
     let handleSignUp = (user) => {
-        console.log(user);
         axios.post(signupPost, user).then(() => {
             navigate('/login')
         }).catch((err) => {
@@ -42,8 +41,8 @@ const Register = () => {
                 toast.error(error.response.data.msg, {
                     position: "top-center",
                 });
-            })(err);
-        })
+            })(err); 
+        }) 
     }
     return (
         <div className="flex flex-col min-h-screen bg-[#f6f6f6] items-center py-32 px-4 sm:px-6 lg:px-8">

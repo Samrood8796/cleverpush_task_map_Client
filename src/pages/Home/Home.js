@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EmptyList from '../../components/common/EmptyList/EmptyList';
 import BlogList from '../../components/Home/BlogList';
 import Header from '../../components/Home/Header/Header';
@@ -13,30 +13,20 @@ const Home = () => {
   const [searchKey, setSearchKey] = useState('');
 
   const blogs = useSelector((state) => state.blogs)
-
   const user = useSelector((state) => state.user)
+
   const getAllBlogs = () => {
     axios.get(`${getBlogs}/${user._id}`).then((response) => {
       dispatch(setBlogs({data:response.data, searchKey:searchKey}))
     })
   }
-  // Search submit
-  const handleSearchBar = (e) => {
-    e.preventDefault();
-    handleSearchResults();
-  };
-  // Search for blog by category
-  const handleSearchResults = () => {
-    axios.get(`${getBlogs}/${searchKey}`)
-    // setBlogs(filteredBlogs)
-  };
 
   // Clear search and show all blogs
   const handleClearSearch = () => {
-    // set(searchBlogs)
     setSearchKey('');
   };
-  useEffect(() => {
+
+  useEffect(() => { 
     getAllBlogs()
   }, [searchKey])
   return (
@@ -47,8 +37,7 @@ const Home = () => {
       <SearchBar
         value={searchKey}
         clearSearch={handleClearSearch}
-        formSubmit={handleSearchBar}
-        handleSearchKey={(e) => setSearchKey(e.target.value)}
+        handleSearchKey={(e) =>{console.log(e.target.value); setSearchKey(e.target.value)}}
       />
       {/* Blog List & Empty View */}
       {!blogs?.length ? <EmptyList /> : <BlogList blogs={blogs} />}

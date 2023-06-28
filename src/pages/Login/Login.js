@@ -15,7 +15,6 @@ const Login = () => {
         axios.post(loginPost, { email, password }, {
             headers: { "Content-Type": "application/json" },
         }).then((response) => {
-            console.log(response.data);
             dispatch(setUser( response.data))
             navigate('/')
         }).catch((err) => {
