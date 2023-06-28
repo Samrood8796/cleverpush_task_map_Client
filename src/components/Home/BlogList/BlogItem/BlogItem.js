@@ -33,14 +33,16 @@ const BlogItem = ({ blog: { description, title, createdAt, author, cover, catego
       });
     })
   }
-
-  return (
+ const closeEditPage = () =>{
+    setEditBlog(!editBlog)
+  }
+  return ( 
     <div className='blogItem-wrap bg-color'>
       <div className='flex justify-end space-x-2 text-xl'>
 
-        <button onClick={() => setEditBlog(true)}><AiFillEdit></AiFillEdit></button>
+        <button onClick={closeEditPage}><AiFillEdit></AiFillEdit></button>
         {editBlog &&
-          <Modal isOpen={editBlog} onClose={setEditBlog}>
+          <Modal isOpen={editBlog} onClose={closeEditPage}>
             <h3 className="font-bold text-xl mb-2">Edit Blog</h3>
             <EditBlog setIsOpen={setEditBlog} defaultDescription={description} defaultCategory={category} defaultTitle={title} id={_id}/>
           </Modal>

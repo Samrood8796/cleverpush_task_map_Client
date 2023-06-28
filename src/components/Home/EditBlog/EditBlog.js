@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from '../../../utils/axios';
-import './style.css'
 import {  editBlog } from '../../../utils/constants';
 import {  setUpdateBlog } from '../../../state/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from '../../common/loading/Loading';
 const EditBlog = ({ setIsOpen, defaultDescription, defaultCategory, defaultTitle, id }) => {
     const [title, setTitle] = useState(defaultTitle);
     const [category, setCategory] = useState(defaultCategory);
@@ -36,10 +36,7 @@ const EditBlog = ({ setIsOpen, defaultDescription, defaultCategory, defaultTitle
     return (
         <>
             {loading && (
-                <div className="loading-overlay">
-                    <div className="loading-spinner"></div>
-                    <div className="loading-text">Submitting...</div>
-                </div>
+                <Loading textContent={"Submitting..."}/>
             )}
             <form onSubmit={handleSubmit} className='flex flex-col space-y-2 '>
 
