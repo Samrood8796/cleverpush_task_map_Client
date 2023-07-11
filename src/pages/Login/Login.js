@@ -15,6 +15,7 @@ const Login = () => {
         axios.post(loginPost, { email, password }, {
             headers: { "Content-Type": "application/json" },
         }).then((response) => {
+            // localStorage.setItem('user',response.data)
             dispatch(setUser( response.data))
             navigate('/')
         }).catch((err) => {

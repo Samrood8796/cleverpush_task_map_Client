@@ -2,62 +2,35 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
-    blogs: []
+    location: { lng: 0, lat: 0 }
 }
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setBlogs: (state, action) => {
-            console.log(action.payload);
-            const searchTerm = action.payload.searchKey.toLowerCase();
-            if (searchTerm.trim() === '') {
-                console.log("ddddddd");
-                // Display all blogs if input is empty
-                state.blogs = action.payload.data
-            } else {
-                console.log("aaaa");
-                // Filter blogs based on search term
-                state.blogs = action.payload.data.filter(blog =>
-                    blog.title?.toLowerCase().includes(searchTerm) ||
-                    blog.category?.toLowerCase().includes(searchTerm) ||
-                    blog.description?.toLowerCase().includes(searchTerm) ||
-                    blog.authorName?.toLowerCase().includes(searchTerm)
-                );
-            }
-        },
-        setSingleBlog: (state, action) => {
-            state.blogs.push(action.payload)
-        },
+
         setUser: (state, action) => {
             state.user = action.payload
         },
         setLogout: (state, action) => {
             state.user = null
-            state.blogs = []
+            state.location.lng = 0
+            state.location.lat = 0
         },
-        setDeleteBlog: (state, action) => {
-            state.blogs = state.blogs.filter(blog => blog._id !== action.payload)
-        },
-        setUpdateBlog: (state, action) => {
-            const updatedBlogs = state.blogs.map((blog) => {
-                if (blog?._id === action.payload.blog._id) return action.payload.blogs;
-                return blog;
-            })
-            state.blogs = updatedBlogs
-        },
+        setLocation: (state, action) => {
+            const { lng, lat } = action.payload
+            state.location.lng = lng
+            state.location.lat = lat
+        }
 
     }
 })
 
 export const {
-    setBlogs,
-    setSingleBlog,
     setUser,
     setLogout,
-    setDeleteBlog,
-    setUpdateBlog
+    setLocation
 } = userSlice.actions
 
 export default userSlice.reducer;

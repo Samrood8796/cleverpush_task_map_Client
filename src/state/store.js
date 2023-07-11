@@ -1,3 +1,11 @@
+// import { configureStore } from '@reduxjs/toolkit'
+// import { userSlice } from './userReducer'
+// const store = configureStore({
+//   reducer: userSlice.reducer, 
+// });
+
+// export default store;  
+
 import { configureStore } from '@reduxjs/toolkit'
 import { userSlice } from './userReducer'
 import {
@@ -30,4 +38,4 @@ const store = configureStore({
 });
 
 export const persistor = persistStore(store)
-export default store;  
+export default store;   
